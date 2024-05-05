@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Evaluation Task</string>
+    <string name="post_profile_image">Post profile image</string>
+    <string name="dummy_txt">Test Data 1, this is a dummy data to display just for text posts...</string>
+    <string name="fetching_data">Fetching Data...</string>
+    <string name="post_image">post image</string>
+    <string name="weeks_passed">%1$d W</string>
+
+</resources>
