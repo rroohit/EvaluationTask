@@ -1,5 +1,6 @@
 package com.roh.evaluationtask.domain.model
 
+import android.graphics.Bitmap
 import com.google.gson.annotations.SerializedName
 
 data class Post(
@@ -11,5 +12,6 @@ data class Post(
     @SerializedName("profile_pic")
     val profilePic: String,
     val dated: Long,
-    val type: String
+    val type: String,
+    // val postBitMap: Bitmap? = null
 )

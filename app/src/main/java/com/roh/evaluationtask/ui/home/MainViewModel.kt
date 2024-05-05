@@ -49,7 +49,6 @@ constructor(
         updatePostFromLocal()
     }
 
-
     private fun updatePostFromLocal() {
         viewModelScope.launch {
             // Before api call look for local db
@@ -72,10 +71,10 @@ constructor(
                 if (response.success) {
                     val newPosts = posts.value.toMutableList()
                     if (isInitialCall) {
-                        _posts.emit(response.data)
+                        _posts.emit(response.data.sortedBy { it.id })
                     } else {
                         newPosts.addAll(response.data)
-                        _posts.emit(newPosts)
+                        _posts.emit(newPosts.sortedBy { it.id })
                     }
 
                     postDatabase.withTransaction {

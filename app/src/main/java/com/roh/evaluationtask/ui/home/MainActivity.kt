@@ -1,8 +1,7 @@
 package com.roh.evaluationtask.ui.home
 
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
@@ -10,11 +9,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.roh.evaluationtask.R
 import com.roh.evaluationtask.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 private const val TAG = "MAIN_ACTIVITY"
@@ -31,13 +29,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
         binding.toolbar.setTitle(getString(R.string.app_name))
+        binding.txtHelper.visibility = View.VISIBLE
 
         val postAdapter = HomePostAdapter()
         postAdapter.setHasStableIds(true)
         binding.rvHome.apply {
             adapter = postAdapter
             layoutManager = LinearLayoutManager(this@MainActivity)
-            hasFixedSize()
+            setHasFixedSize(true)
+
         }
 
         binding.rvHome.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -63,6 +63,9 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.posts.collect { newPosts ->
+                    launch(Dispatchers.Main) {
+                        binding.txtHelper.visibility = View.GONE
+                    }
                     postAdapter.submitList(newPosts)
                 }
             }
